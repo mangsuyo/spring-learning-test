@@ -24,7 +24,7 @@ class ResponseStaticTest {
     void responseStaticPage() {
         var response = RestAssured
             .given().log().all()
-            .when().get("/static.html")
+            .when().get("/hello.html")
             .then().log().all().extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());

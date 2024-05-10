@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MemberController {
     @GetMapping("/hello")
-    public String world(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+    public String world(@RequestParam String name, Model model) {
         model.addAttribute("name", name);
         return "hello";
     }
