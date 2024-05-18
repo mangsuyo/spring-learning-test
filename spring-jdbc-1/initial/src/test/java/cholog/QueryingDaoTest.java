@@ -52,7 +52,6 @@ public class QueryingDaoTest {
     @Test
     void findCustomerById() {
         Customer customer = queryingDAO.findCustomerById(1L);
-
         assertThat(customer).isNotNull();
         assertThat(customer.getLastName()).isEqualTo("Woo");
     }
