@@ -2,7 +2,10 @@ package cholog.auth.ui;
 
 import cholog.auth.application.AuthService;
 import cholog.auth.application.AuthorizationException;
+import cholog.auth.dto.AuthInfo;
 import cholog.auth.dto.MemberResponse;
+import cholog.auth.infrastructure.AuthorizationExtractor;
+import cholog.auth.infrastructure.BasicAuthorizationExtractor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ public class SessionLoginController {
 
     private final AuthService authService;
 
+
     public SessionLoginController(AuthService authService) {
         this.authService = authService;
     }
@@ -36,15 +40,16 @@ public class SessionLoginController {
     @PostMapping("/login/session")
     public ResponseEntity<Void> sessionLogin(HttpServletRequest request, HttpSession session) {
         // TODO: HttpRequest로 받은 email과 password 추출
-        String email = "";
-        String password = "";
+        String email = request.getParameter(USERNAME_FIELD);
+        String password = request.getParameter(PASSWORD_FIELD);
+        System.out.println("Print" + email + password);
 
         if (authService.checkInvalidLogin(email, password)) {
             throw new AuthorizationException();
         }
 
         // TODO: Session에 인증 정보 저장 (key: SESSION_KEY, value: email값)
-
+        session.setAttribute(SESSION_KEY, email);
         return ResponseEntity.ok().build();
     }
 
@@ -58,7 +63,7 @@ public class SessionLoginController {
     @GetMapping("/members/me/session")
     public ResponseEntity<MemberResponse> findMyInfo(HttpSession session) {
         // TODO: Session을 통해 인증 정보 조회 (key: SESSION_KEY)
-        String email = "";
+        String email = session.getAttribute(SESSION_KEY).toString();
         MemberResponse member = authService.findMember(email);
         return ResponseEntity.ok().body(member);
     }
