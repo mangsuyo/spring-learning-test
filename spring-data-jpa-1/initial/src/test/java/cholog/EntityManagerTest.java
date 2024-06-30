@@ -43,9 +43,9 @@ public class EntityManagerTest {
         Customer savedCustomer = jdbcTemplate.query(sqlForSelectCustomer, rs -> {
             rs.next();
             return new Customer(
-                    rs.getLong("id"),
-                    rs.getString("first_name"),
-                    rs.getString("last_name"));
+                rs.getLong("id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"));
         });
         assertThat(savedCustomer.getFirstName()).isEqualTo("Jack");
 
@@ -54,9 +54,9 @@ public class EntityManagerTest {
         Customer updatedCustomer = jdbcTemplate.query(sqlForSelectCustomer, rs -> {
             rs.next();
             return new Customer(
-                    rs.getLong("id"),
-                    rs.getString("first_name"),
-                    rs.getString("last_name"));
+                rs.getLong("id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"));
         });
 
         assertThat(updatedCustomer.getFirstName()).isEqualTo("Danial");
